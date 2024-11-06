@@ -1,0 +1,133 @@
+-- AGGREGATE FUNCTIONS
+
+-- COUNT
+-- SUM
+-- AVERAGE
+-- MIN
+-- MAX
+
+--  COUNT
+-- COUNT RETURNS THE NUMBER OF ROWS IN A COLUMN OR THE NUMBER OF NON-NULL VALUES IN A COLUMN
+
+SELECT COUNT(*) 
+FROM movie_revenues;
+
+SELECT COUNT(international_takings)
+FROM movie_revenues
+
+SELECT * FROM movie_revenues;
+
+SELECT COUNT(*)
+FROM movies
+WHERE movie_lang = 'English'
+
+-- SUM
+
+SELECT SUM(domestic_takings) Domestic_Revenues
+FROM movie_revenues;
+
+SELECT SUM(domestic_takings) Domestic_Revenues
+FROM movie_revenues
+WHERE domestic_takings > 100.0;
+
+SELECT SUM(movie_length) AS Chinese_Total
+FROM movies
+WHERE movie_lang = 'Chinese';
+
+-- MIN
+-- MAX
+
+SELECT MIN(movie_length)
+FROM movies
+
+SELECT MAX(movie_length)
+FROM movies
+
+SELECT MIN(release_date)
+FROM movies
+
+SELECT MAX(release_date)
+FROM movies
+
+-- AVERAGE
+-- AVG
+
+-- AVERAGE RETURNS THE AVERAGE VALUE(ARITHMETIC MEAN)
+
+SELECT AVG(movie_length)
+FROM movies
+
+SELECT AVG(movie_length)
+FROM movies
+WHERE age_certificate = '18';
+
+-- GROUPING DATA
+-- GROUP BY
+
+-- THE GROUP BY IS A CLAUSE THAT IS USED TO GROUP ROWS THAT HAVE THE SAME VALUES IN A SPECIFIED
+-- COLUMN INTO SUMMARY ROWS.
+
+SELECT COUNT(movie_lang)
+FROM movies;
+
+SELECT movie_lang, COUNT(movie_lang) Count_of_Movies
+FROM movies
+GROUP BY movie_lang;
+
+-- THE RULE OF THE GROUP BY
+-- ANY COLUMN THAT IS SELECTED IN THE SELECT LIST THAT IS NOT CONTAINED IN AN AGGREGATE 
+-- FUNCTION MUST BE CONTAINED IN THE GROUP BY CLAUSE
+
+SELECT movie_lang, AVG(movie_length) AVG_ML
+FROM movies
+GROUP BY movie_lang;
+
+SELECT movie_lang, age_certificate, AVG(movie_length) AS AVG_ML
+FROM movies
+GROUP BY movie_lang, age_certificate;
+
+SELECT movie_lang, age_certificate, AVG(movie_length) AS AVG_ML
+FROM movies
+WHERE movie_length > 120
+GROUP BY movie_lang, age_certificate
+
+-- HAVING
+-- THE HAVING IS USED TO FILTER RECORDS THAT ARE GROUPED BY THE GROUP BY CLAUSE.
+
+SELECT movie_lang, COUNT(movie_lang) Count_of_Movies
+FROM movies
+GROUP BY movie_lang
+HAVING COUNT(movie_lang) > 1
+
+
+SELECT movie_lang, COUNT(movie_lang) Count_of_Movies
+FROM movies
+WHERE movie_length > 120
+GROUP BY movie_lang
+HAVING COUNT(movie_lang) > 1
+ORDER BY movie_lang DESC;
+
+-- SQL execution Order
+--- FROM 
+-- WHERE
+-- GROUP BY
+-- HAVING
+-- SELECT
+-- ORDER BY
+
+SELECT * FROM movie_revenues;
+
+SELECT movie_id, (domestic_takings + international_takings) AS Total_Revenue
+FROM movie_revenues
+WHERE domestic_takings IS NOT NULL
+AND international_takings IS NOT NULL
+ORDER BY Total_Revenue DESC;
+
+SELECT * FROM movies;
+
+
+
+
+
+
+
