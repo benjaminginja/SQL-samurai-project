@@ -1,0 +1,237 @@
+-- SELECTING DATA FROM TABLE
+-- SELECT STATEMENT
+
+SELECT * FROM directors;
+
+SELECT first_name FROM directors;
+
+SELECT first_name FROM directors;
+
+SELECT first_name, last_name, nationality FROM directors;
+
+-- retrieving data with a where clause
+-- where clause in sql is used to filter data
+
+-- ARITHMETIC OPERATORS
+-- LOGICAL OPERATORS
+-- COMPARISON OPERATORS
+
+-- ORDER OF EXECUTION IN SQL
+
+SELECT * FROM movies;
+
+SELECT * 
+FROM movies
+WHERE age_certificate = '15'
+
+-- LOGICAL OPERATORS
+-- AND 
+-- OR
+
+-- AND
+
+SELECT * 
+FROM movies
+WHERE age_certificate = '15'
+AND movie_lang = 'Chinese';
+
+-- OR
+
+SELECT * 
+FROM movies
+WHERE age_certificate = '15'
+OR movie_lang = 'Chinese';
+
+SELECT * 
+FROM movies
+WHERE age_certificate = '15' -- VARCHAR
+AND movie_lang = 'English'
+AND director_id = 27; -- INT
+
+-- COMPARISON OPERATORS
+-- >,>=,<,<=, =, !=
+
+SELECT movie_name, movie_length
+FROM movies
+WHERE movie_length > 120;
+
+SELECT movie_name, movie_length
+FROM movies
+WHERE movie_length >= 120;
+
+SELECT movie_name, movie_length
+FROM movies
+WHERE movie_length < 120;
+
+SELECT movie_name, movie_length
+FROM movies
+WHERE movie_length <= 120;
+
+SELECT movie_name, movie_length
+FROM movies
+WHERE movie_length = 120;
+
+SELECT movie_name, movie_length
+FROM movies
+WHERE movie_length != 120;
+
+SELECT * 
+FROM movies
+WHERE release_date < '1999-12-31';
+
+
+SELECT * 
+FROM movies
+WHERE movie_lang <= 'English'
+
+-- USING THE IN AND NOT IN 
+-- IN -- INCLUSIVE IN THIS LIST OR INCLUDED IN THIS LIST
+-- NOT IN -- NOT INCLUSIVE IN THIS LIST OR INCLUDED IN THIS LIST
+
+SELECT first_name, last_name 
+FROM actors
+WHERE first_name IN ('Bruce', 'John', 'Peter');
+
+SELECT first_name, last_name 
+FROM actors
+WHERE first_name NOT IN ('Bruce', 'John', 'Peter');
+
+SELECT actor_id, first_name, last_name 
+FROM actors
+WHERE actor_id IN (2,3,4,5,6,8);
+
+SELECT actor_id, first_name, last_name 
+FROM actors
+WHERE actor_id NOT IN (2,3,4,5,6,8);
+
+-- USING THE LIKE OPERATOR WITH %
+-- LIKE OPERATOR IS USED TO SEARCH FOR PATTERNS
+-- % IS A WILDCARD
+
+SELECT * 
+FROM actors
+WHERE first_name LIKE 'P%' -- WHEN THE WORD STARTS WITH 
+
+SELECT * 
+FROM actors
+WHERE first_name LIKE '%P%' -- ANY NAME THAT HAS A P
+
+SELECT * 
+FROM actors
+WHERE first_name LIKE '%P'
+
+SELECT * 
+FROM actors
+WHERE first_name LIKE '%PETER%'
+
+
+-- SELECTING DATA WHERE A COLUMN IS BETWEEN 2 VLAUES
+-- BETWEEN
+
+SELECT movie_name, release_date
+FROM movies
+WHERE release_date BETWEEN '1995-01-01' AND '1999-12-31';
+
+SELECT movie_name, movie_length
+FROM movies
+WHERE movie_length BETWEEN 90 AND 120;
+
+-- ORDERING THE RESULT RETURNED
+-- USING ORDER BY CLAUSE
+
+SELECT first_name, last_name, date_of_birth
+FROM actors
+ORDER BY first_name;
+
+SELECT first_name, last_name, date_of_birth
+FROM actors
+ORDER BY first_name ASC;
+
+SELECT first_name, last_name, date_of_birth
+FROM actors
+ORDER BY first_name DESC;
+
+SELECT actor_id, first_name, last_name, date_of_birth
+FROM actors
+WHERE gender  = 'F'
+ORDER BY date_of_birth DESC;
+
+-- LIMITING THE NUMBER OF RECORDS RETURNED
+-- TOP 
+
+SELECT TOP 10 actor_id, first_name, last_name, date_of_birth
+FROM actors
+WHERE gender  = 'F'
+ORDER BY date_of_birth DESC;
+
+SELECT TOP 5 actor_id, first_name, last_name, date_of_birth
+FROM actors
+WHERE gender  = 'F'
+ORDER BY date_of_birth DESC;
+
+SELECT TOP 1 actor_id, first_name, last_name, date_of_birth
+FROM actors
+WHERE gender  = 'F'
+ORDER BY date_of_birth DESC;
+
+SELECT TOP 10 PERCENT actor_id, first_name, last_name, date_of_birth
+FROM actors
+WHERE gender  = 'F'
+ORDER BY date_of_birth DESC;
+
+-- FETCH AND OFFSET
+-- ARE USED TO IMPLEMENT PAGINATION IN SQL QUERIES
+
+
+SELECT actor_id, first_name, last_name, date_of_birth
+FROM actors
+WHERE gender  = 'F'
+ORDER BY date_of_birth DESC
+OFFSET 10 ROWS	-- SKIP THE FIRST 10 ROWS
+FETCH NEXT 10 ROWS ONLY;	 --- TO RETURN THE NEXT 10 ROWS AFTER SKIPPING
+
+
+-- DISTINCT VALUES
+-- THE DISTINCT KEYWORD IN SQL IS USED TO REMOVE DUPLICATES FROM A RESULTSET, RETURNING ONLY
+-- UNIQUE VALUES.
+
+SELECT DISTINCT movie_lang, age_certificate
+FROM movies
+order by movie_lang;
+
+SELECT DISTINCT *
+FROM movies;
+
+-- DEALING WITH NULL VALUES
+-- VALUES THAT ARE MISSING OR UNKNOWN
+
+SELECT * FROM actors
+WHERE date_of_birth IS NULL;
+
+SELECT * FROM actors
+WHERE date_of_birth IS NOT NULL;
+
+SELECT * 
+FROM movie_revenues
+WHERE domestic_takings IS NULL AND 
+international_takings IS NULL;
+
+SELECT * 
+FROM movie_revenues
+WHERE domestic_takings IS NOT NULL AND 
+international_takings IS NOT NULL;
+
+-- SETTING A COLUMN NAME ALIAS
+-- AKA
+
+SELECT 5 + 6 AS Addition;
+
+SELECT last_name 
+FROM actors
+
+SELECT last_name AS surname
+FROM actors
+
+
+
+
