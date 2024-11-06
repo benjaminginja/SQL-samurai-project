@@ -1,0 +1,162 @@
+
+--JOINS
+--NORMALLY USED TO COMBINE ROWS FROM TWO OR MORE TABLES BASED ON A RELATED COLUMN BETWEEN THEM
+
+-- COLUMNS -- THE COLUMNS THAT ARE USED TO JOIN THE TABLES, TYPICALLY THROUGH THE PRIMARY
+-- KEYS AND FOREIGN KEY COLUMNS
+
+-- INNER JOIN
+-- LEFT JOIN
+-- RIGHT JOIN
+-- FULL OUTER JOIN OR FULL JOIN
+
+
+-- INNER JOIN IN SQL IS USED TO COMBINE ROWS FROM TWO OR MORE TABLES BASED ON A RELATED
+-- COLUMN BETWEEN THEM. IT RETURNS ONLY THE ROWS THAT HAVE MATCHING VALUES IN BOTH TABLES
+-- IF THERE IS NO MATCH, THE ROW WHERE THERE IS NO MATCH WILL NOT BE RETURNED IN THE RESULT
+
+SELECT * FROM directors;
+SELECT * FROM movies;
+
+INSERT INTO directors(first_name, last_name, date_of_birth, nationality)
+VALUES ('Christopher', 'Nolan', '1970-07-30', 'British');
+
+INSERT INTO movies(movie_name, movie_length, movie_lang, release_date, age_certificate)
+VALUES ('Splendor SQL Class', 200, 'Igbo', '2024-06-29', '18')
+
+--Find the directors that contriubuted in the movies production that are from JAPAN
+
+SELECT directors.director_id, directors.first_name, directors.last_name, movies.movie_name
+FROM directors
+INNER JOIN movies 
+ON directors.director_id = movies.director_id
+WHERE movies.movie_lang = 'Japanese'
+ORDER BY movie_length;
+ 
+ oR
+
+SELECT d.director_id, d.first_name, d.last_name, m.movie_name
+FROM directors d
+JOIN movies m 
+ON d.director_id = m.director_id
+WHERE m.movie_lang = 'Japanese'
+ORDER BY m.movie_length;
+
+-- FIND HOW MUCH REVENUE EACH REVENUE MADE FOR THE COMPANY BY DOMESTIC AND INTERNATIONAL TAKINGS 
+
+SELECT m.movie_name, mr.domestic_takings, mr.international_takings
+FROM movies m
+JOIN movie_revenues mr
+ON m.movie_id = mr.movie_id
+WHERE domestic_takings IS NOT NULL
+AND international_takings IS NOT NULL
+ORDER BY domestic_takings DESC;
+
+ 
+ -- 1. Select the directors first and last names, the movie names and release dates for all
+-- Chinese, Korean and Japanese movies. 
+
+select * from directors
+
+select * from movies
+
+SELECT d.first_name, d.last_name, m.movie_name, m.movie_lang, m.release_date
+FROM directors d
+FULL JOIN movies m
+ON d.director_id = m.movie_id 
+WHERE movie_lang = 'chinese'
+ORDER BY m.release_date DESC
+
+SELECT m.movie_name, mr.domestic_takings, mr.international_takings, (mr.domestic_takings + 
+mr.international_takings) AS Total_Revenue
+FROM movies m
+JOIN movie_revenues mr
+ON m.movie_id = mr.movie_id
+WHERE domestic_takings IS NOT NULL
+AND international_takings IS NOT NULL
+ORDER BY Total_Revenue DESC;
+
+-- LEFT JOIN
+
+-- RETURNS ALL THE ROWS IN THE LEFT TABLE AND ONLY MATCHING ROWS IN THE RIGHT TABLE
+-- IF THERE IS NO MATCH, NULL VALUES ARE RETURNED FOR THE RIGHT TABLE
+
+SELECT d.director_id, d.first_name, d.last_name, m.movie_name
+FROM directors d
+LEFT JOIN movies m 
+ON d.director_id = m.director_id
+
+SELECT d.director_id, d.first_name, d.last_name, m.movie_name
+FROM directors d
+LEFT JOIN movies m 
+ON d.director_id = m.director_id
+WHERE d.nationality = 'British'
+
+-- RIGHT
+-- RETURNS ALL THE ROWS IN THE RIGHT TABLE AND ONLY MATCHING ROWS IN THE LEFT TABLE
+-- IF THERE IS NO MATCH, NULL VALUES ARE RETURNED FOR THE LEFT TABLE
+
+SELECT d.director_id, d.first_name, d.last_name, m.movie_name
+FROM directors d
+RIGHT JOIN movies m 
+ON d.director_id = m.director_id
+
+-- FULL OUTER JOIN
+
+SELECT d.director_id, d.first_name, d.last_name, m.movie_name
+FROM directors d
+FULL OUTER JOIN movies m ON d.director_id = m.director_id
+
+
+SELECT d.director_id, d.first_name, d.last_name, m.movie_name, mr.domestic_takings, mr.international_takings
+FROM directors d
+JOIN movies m ON d.director_id = m.director_id
+JOIN movie_revenues mr ON mr.movie_id = m.movie_id
+WHERE mr.domestic_takings IS NOT NULL
+AND mr.international_takings IS NOT NULL
+ORDER BY domestic_takings DESC;
+
+-- 2. Count the number of movies that each director has directed.
+
+SELECT * FROM directors
+SELECT * FROM movies
+
+SELECT d.first_name, COUNT(m.movie_id) AS movie_count
+FROM directors d
+JOIN movies m ON d.director_id = m.director_id
+GROUP BY d.first_name;
+
+-- To verify the returned run this 
+SELECT d.director_id, d.first_name, d.last_name, m.movie_name
+FROM directors d
+JOIN movies m ON d.director_id = m.director_id
+WHERE first_name = 'Ang'
+
+-- 2. Which director has the highest total domestic takings.
+
+SELECT d.first_name, MAX (mr.domestic_takings)AS Highest_dom_takings 
+FROM directors d
+JOIN movies m ON d.director_id = m.director_id
+JOIN movie_revenues mr ON mr.movie_id = m.movie_id
+WHERE mr.domestic_takings IS NOT NULL
+AND mr.international_takings IS NOT NULL
+GROUP BY first_name
+ORDER BY Highest_dom_takings DESC;
+
+-- 1. Select the first and last names of all the actors who have starred in movies directed by Wes Anderson. 
+SELECT * FROM actors
+SELECT * FROM movies
+
+SELECT a.first_name, a.last_name, m.movie_name
+FROM actors a
+JOIN directors d ON a.actor_id = d.director_id
+JOIN movies m ON m.movie_id = d.director_id
+WHERE d.director_id = 3;
+
+SELECT a.first_name, a.last_name
+FROM actors a
+JOIN movies m ON a.actor_id = m.director_id
+JOIN directors d ON m.director_id = d.director_id
+WHERE d.director_id = 3;
+
+
